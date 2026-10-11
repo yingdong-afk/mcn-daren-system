@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block title %}{{ '编辑' if talent else '录入' }}达人{% endblock %}{% block content %}
+<h1>{{ '编辑' if talent else '录入' }}达人档案</h1><p class="muted">星号项必填。未知数值请留空，不能用0代替未知数据。类目及内容类型可用中文逗号分隔。</p>
+<form method="post" class="card"><input type="hidden" name="csrf_token" value="{{ session.csrf }}"><div class="form-grid">
+<label>达人昵称 *<input name="nickname" required maxlength="300" value="{{ form.get('nickname','') }}"></label><label>抖音号 *<input name="douyin_id" required maxlength="100" value="{{ form.get('douyin_id','') }}"><small>按抖音号去重，不区分英文字母大小写</small></label>
+<label>粉丝数量<input name="fans" type="number" min="0" max="1000000000000" step="1" value="{{ form.get('fans','') if form.get('fans') is not none else '' }}"></label><label>联系方式<input name="contact" maxlength="300" value="{{ form.get('contact','') }}" placeholder="经授权保存的商务联系方式"></label>
+<label>带货类目<input name="categories" maxlength="300" value="{{ form.get('categories','') }}" placeholder="按已知类目录入"></label><label>内容类型<input name="content_types" maxlength="300" value="{{ form.get('content_types','') }}" placeholder="按已知内容标签录入"></label>
+<label>历史销售额（元）<input name="historical_gmv" type="number" min="0" step="0.01" value="{{ form.get('historical_gmv','') }}"></label><label>销售统计周期<input name="sales_period" maxlength="300" value="{{ form.get('sales_period','') }}" placeholder="填写明确周期；销售额非空时必填"></label>
+<label>数据来源<input name="data_source" maxlength="300" value="{{ form.get('data_source','') }}" placeholder="如授权导出文件、达人提供，注明采集日期"></label>
+{% if current_user.role=='admin' %}<label>负责人<select name="owner_id"><option value="">未分配</option>{% for employee in employees %}<option value="{{ employee.id }}" {% if form.get('owner_id')|string==employee.id|string %}selected{% endif %}>{{ employee.display_name }}</option>{% endfor %}</select></label>{% endif %}
+</div><label>备注<textarea name="notes" maxlength="2000" rows="4">{{ form.get('notes','') }}</textarea></label><div class="actions"><button>保存档案</button><a href="{{ url_for('talent_detail',talent_id=talent.id) if talent else url_for('talents') }}">取消</a></div></form>
+{% endblock %}

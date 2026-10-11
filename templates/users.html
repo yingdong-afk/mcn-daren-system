@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}员工管理{% endblock %}{% block content %}
+<h1>员工管理</h1><p class="muted">团队成员可以查看资源和生成话术；员工仅能修改自己负责的档案，管理员可以分配和修改全部档案。</p>
+<section class="card table-wrap"><table><thead><tr><th>姓名</th><th>登录账号</th><th>角色</th></tr></thead><tbody>{% for user in users %}<tr><td>{{ user.display_name }}</td><td>{{ user.username }}</td><td>{{ '管理员' if user.role=='admin' else '商务员工' }}</td></tr>{% endfor %}</tbody></table></section>
+<form method="post" class="card"><h2>开通员工账号</h2><input type="hidden" name="csrf_token" value="{{ session.csrf }}"><div class="form-grid"><label>登录账号 *<input name="username" required maxlength="100" autocomplete="off"></label><label>员工姓名 *<input name="display_name" required maxlength="100"></label><label>初始密码 *<input type="password" name="password" required minlength="10" autocomplete="new-password"><small>至少10位，请通过公司安全渠道告知员工</small></label><label>角色<select name="role"><option value="staff">商务员工</option><option value="admin">管理员</option></select></label></div><button>创建账号</button></form>
+{% endblock %}

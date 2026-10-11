@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block title %}登录{% endblock %}{% block content %}
+<section class="login card"><div class="eyebrow">商务协作，从一份真实档案开始</div><h1>登录工作台</h1><p class="muted">统一管理达人资源，跟进每一次合作。</p><form method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf }}"><label>登录账号<input name="username" required autocomplete="username" maxlength="100"></label><label>密码<input name="password" type="password" required autocomplete="current-password"></label><button>登录</button></form><p class="muted">首次使用请按 README 创建管理员，员工账号由管理员开通。</p></section>
+{% endblock %}

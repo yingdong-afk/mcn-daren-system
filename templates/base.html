@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% block title %}达人商务工作台{% endblock %} · MCN</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header><a class="brand" href="{{ url_for('dashboard') }}">MCN <span>达人商务工作台</span></a>{% if current_user %}<div class="identity">{{ current_user.display_name }} · {{ '管理员' if current_user.role == 'admin' else '商务员工' }}<form action="{{ url_for('logout') }}" method="post"><input type="hidden" name="csrf_token" value="{{ session.csrf }}"><button class="quiet">退出登录</button></form></div>{% endif %}</header>
+{% if current_user %}<nav><a href="{{ url_for('dashboard') }}">业务总览</a><a href="{{ url_for('talents') }}">达人数据库</a><a href="{{ url_for('screening') }}">智能筛选</a><a href="{{ url_for('import_data') }}">批量导入</a>{% if current_user.role == 'admin' %}<a href="{{ url_for('users') }}">员工管理</a>{% endif %}<a href="{{ url_for('account') }}">修改密码</a></nav>{% endif %}
+<main>{% for category, message in get_flashed_messages(with_categories=true) %}<div role="alert" class="flash {{ category }}">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+<footer>内部商务管理 · 时间使用北京时间 · 仅记录真实业务数据 · 对外联系由员工审核后手动执行</footer>
+</body></html>
