@@ -114,7 +114,9 @@ docker compose exec web flask --app app:create_app init-admin
 docker compose logs --tail=50 web
 ```
 
-Docker 默认将服务绑定到宿主机本地8080端口，数据存放在持久卷 `mcn-data`。停止时使用 `docker compose down`，**不要加 `-v`**，否则会删除业务数据。Docker 配置须在具备 Docker 的部署机器验证；云开发环境可直接使用前面的 Python 启动方式。
+Docker 默认将服务绑定到宿主机本地8080端口，数据存放在持久卷 `mcn-data`。停止时使用 `docker compose down`，**不要加 `-v`**，否则会删除业务数据。
+
+本轮已验证 Compose 配置格式。云开发环境的 Docker 构建在依赖安装阶段因容器 DNS 无法解析 PyPI / 网络代理地址而失败，尚未验证容器启动；需要在网络正常的 Docker 部署机器验证。前面的 Python 直接安装、启动、真实 HTTP 操作和重启持久化均已通过，不依赖 Docker。
 
 本机 SQLite 在线备份：
 
