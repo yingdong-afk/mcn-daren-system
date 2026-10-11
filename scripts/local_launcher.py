@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def run():
+    if sys.version_info[:2] != (3, 12):
+        raise RuntimeError('请使用 Python 3.12 启动本项目；macOS 用户请双击启动系统.command。')
     os.chdir(ROOT)
     python = ROOT / '.venv' / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
     if not python.exists():
@@ -49,7 +51,8 @@ def run():
         else:
             raise RuntimeError('服务未能及时启动，请查看上面的提示。')
         print('系统已启动，正在打开浏览器。请保持此窗口打开；按 Ctrl+C 可停止。', flush=True)
-        webbrowser.open(address)
+        if not webbrowser.open(address):
+            print(f'浏览器没有自动打开，请在本机浏览器地址栏输入 {address}。', flush=True)
         if process.wait() != 0:
             raise RuntimeError('服务已退出，请查看上面的提示。')
     finally:
